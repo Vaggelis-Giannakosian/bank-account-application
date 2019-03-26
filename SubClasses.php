@@ -51,4 +51,50 @@ class ISA extends BankAccount
 
 }
 
+class Savings extends BankAccount
+{
 
+    public $pocketBook = array();
+    public $depositBook = array();
+
+    public function orderNewBook()
+    {
+        $orderTime = new DateTime();
+        array_push($this->pocketBook, "Ordered new pocket book on: " . $orderTime->format('c'));
+    }
+
+    public function orderNewDepositBook()
+    {
+        $orderTime = new DateTime();
+
+        array_push($this->pocketBook, "Ordered new deposit book on: " . $orderTime->format('c'));
+    }
+
+
+}
+
+class Debit extends BankAccount
+{
+
+    private $cardNumber;
+    private $securityCode;
+    private $pinNumber;
+
+    public function validate()
+    {
+
+        $valDate = new DateTime();
+        $this->cardNumber = rand(1000, 9999) . "-" . rand(1000, 9999) . "-" . rand(1000, 9999) . "-" . rand(1000, 9999);
+        $this->securityCode = rand(100, 999);
+        array_push($this->audit, array("Validated card", $valDate->format('c'), $this->cardNumber, $this->securityCode, $this->pinNumber));
+    }
+
+    public function changePin($newPin)
+    {
+        $pinChange = new DateTime();
+        $this->pinNumber = $newPin;
+        array_push($this->audit, array("Pin changed", $pinChange->format('c'), $this->pinNumber));
+    }
+
+
+}
