@@ -51,9 +51,9 @@ class ISA extends BankAccount
 
 }
 
-class Savings extends BankAccount
+class Savings extends BankAccount implements AccountPlus
 {
-
+    use SavingsPlus;
     public $pocketBook = array();
     public $depositBook = array();
 
@@ -73,9 +73,9 @@ class Savings extends BankAccount
 
 }
 
-class Debit extends BankAccount
+class Debit extends BankAccount implements AccountPlus
 {
-
+    use SavingsPlus;
     private $cardNumber;
     private $securityCode;
     private $pinNumber;
@@ -98,3 +98,22 @@ class Debit extends BankAccount
 
 
 }
+
+trait SavingsPlus
+{
+    private $monthlyFee = 20;
+    public $package = "Holiday insurance";
+
+    public function addedBonus()
+    {
+
+        echo "Hello" . $this->firstName . " " . $this->lastName . ", for &pound;" . $this->monthlyFee . " a month you get " . $this->package;
+    }
+
+}
+
+interface AccountPlus
+{
+    public function addedBonus();
+}
+
