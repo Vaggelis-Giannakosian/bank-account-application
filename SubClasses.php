@@ -51,7 +51,7 @@ class ISA extends BankAccount
 
 }
 
-class Savings extends BankAccount implements AccountPlus
+class Savings extends BankAccount implements AccountPlus, Savers
 {
     use SavingsPlus;
     public $pocketBook = array();
@@ -96,7 +96,6 @@ class Debit extends BankAccount implements AccountPlus
         array_push($this->audit, array("Pin changed", $pinChange->format('c'), $this->pinNumber));
     }
 
-
 }
 
 trait SavingsPlus
@@ -106,7 +105,6 @@ trait SavingsPlus
 
     public function addedBonus()
     {
-
         echo "Hello" . $this->firstName . " " . $this->lastName . ", for &pound;" . $this->monthlyFee . " a month you get " . $this->package;
     }
 
@@ -115,5 +113,12 @@ trait SavingsPlus
 interface AccountPlus
 {
     public function addedBonus();
+}
+
+interface Savers
+{
+    public function orderNewBook();
+
+    public function orderNewDepositBook();
 }
 
