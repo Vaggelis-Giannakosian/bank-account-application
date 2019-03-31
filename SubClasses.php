@@ -3,8 +3,16 @@ require('BankAccount.php');
 
 class ISA extends BankAccount
 {
-    public $timePeriod = 28;
+    public $timePeriod;
     public $additionalServices;
+
+    public function __construct($time, $services, $APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false)
+    {
+        parent::__construct($APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false);
+        $this->timePeriod = $time;
+        $this->additionalServices = $services;
+    }
+
 
     //Methods
 
@@ -57,6 +65,13 @@ class Savings extends BankAccount implements AccountPlus, Savers
     public $pocketBook = array();
     public $depositBook = array();
 
+    public function __construct($monthfee, $package, $APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false)
+    {
+        parent::__construct($APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false);
+        $this->monthlyFee = $monthfee;
+        $this->package = $package;
+    }
+
     public function orderNewBook()
     {
         $orderTime = new DateTime();
@@ -80,7 +95,16 @@ class Debit extends BankAccount implements AccountPlus
     private $securityCode;
     private $pinNumber;
 
-    public function validate()
+    public function __construct($monthfee, $package, $pin, $APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false)
+    {
+        parent::__construct($APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false);
+        $this->monthlyFee = $monthfee;
+        $this->package = $package;
+        $this->pinNumber = $pin;
+        $this->validate();
+    }
+
+    private function validate()
     {
 
         $valDate = new DateTime();
@@ -88,7 +112,6 @@ class Debit extends BankAccount implements AccountPlus
         $this->securityCode = rand(100, 999);
         array_push($this->audit, array("Validated card", $valDate->format('c'), $this->cardNumber, $this->securityCode, $this->pinNumber));
     }
-
     public function changePin($newPin)
     {
         $pinChange = new DateTime();

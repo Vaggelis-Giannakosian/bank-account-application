@@ -3,13 +3,24 @@
 
 abstract class BankAccount
 {
-    protected $balance = 0;
+    protected $balance;
     public $APR;
     public $sortCode;
     public $firstName;
     public $lastName;
     public $audit = array();
-    protected $locked = false;
+    protected $locked;
+
+    public function __construct($APR, $sortCode, $firstName, $lastName, $balance = 0, $locked = false)
+    {
+        $this->APR = $APR;
+        $this->sortCode = $sortCode;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->balance = $balance;
+        $this->locked = $locked;
+    }
+
 
     public function withdraw($amount){
 
